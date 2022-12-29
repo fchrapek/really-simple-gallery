@@ -3,82 +3,89 @@ function Gallery(gallery) {
     throw new Error('Gallery does not exist')
   }
 
-  const images = Array.from(gallery.querySelectorAll('img'));
-  const modal = document.querySelector('.rsg__modal');
-  const prevButton = modal.querySelector('[data-prev]');
-  const nextButton = modal.querySelector('[data-next]');
-  let currentImage;
+  this.gallery = gallery;
 
-  function openModal() {
-    if (modal.matches('.-open')) return;
+  this.image = Array.from(gallery.querySelectorAll('img'));
+  this.modal = document.querySelector('.rsg__modal');
+  this.prevButton = this.modal.querySelector('[data-prev]');
+  this.nextButton = this.modal.querySelector('[data-next]');
 
-    modal.classList.add('-open');
-    window.addEventListener('keyup', handleKeyUp);
-    nextButton.addEventListener('click', showNextImage);
-    prevButton.addEventListener('click', showPrevImage);
-  }
-
-  function closeModal() {
-    modal.classList.remove('-open');
-    window.removeEventListener('keyup', handleKeyUp);
-    nextButton.removeEventListener('click', showNextImage);
-    prevButton.removeEventListener('click', showPrevImage);
-  }
-
-  function handleClickOutside(e) {
-    if (e.target === e.currentTarget) {
-      closeModal();
-    }
-  }
+  this.showNextImage = this.showNextImage.bind(this);
+  this.showPrevImage = this.showPrevImage.bind(this);
+  this.handleKeyUp = this.handleKeyUp.bind(this);
+  this.handleClickOutside = this.handleClickOutside.bind(this);
 
 
-  function handleKeyUp(e) {
-    if (e.key === 'Escape') return closeModal();
-    if (e.key === 'ArrowRight') return showNextImage();
-    if (e.key === 'ArrowLeft') return showPrevImage();
-  }
-
-  function showNextImage() {
-    const nextFigure = currentImage.parentElement.nextElementSibling
-
-    if (nextFigure) {
-      showImage(nextFigure.firstElementChild);
-    } else {
-      showImage(gallery.firstElementChild.firstElementChild);
-    }
-  }
-
-  function showPrevImage() {
-    const previousFigure = currentImage.parentElement.previousElementSibling
-
-    if (previousFigure) {
-      showImage(previousFigure.firstElementChild);
-    } else {
-      showImage(gallery.lastElementChild.firstElementChild);
-    }
-  }
-
-  function showImage(el) {
-    if (!el) return;
-
-    modal.querySelector('[data-image]').src = el.src;
-    modal.querySelector('[data-title]').textContent = el.title;
-    modal.querySelector('[data-description]').textContent = el.dataset.description;
-
-    currentImage = el;
-    openModal();
-  }
-
-  images.forEach(image => {
-    image.addEventListener('click', e => showImage(e.currentTarget));
+  this.image.forEach(image => {
+    image.addEventListener('click', e => this.showImage(e.currentTarget));
     image.addEventListener('keyup', e => {
       if (e.key === 'Enter') {
-        showImage(e.currentTarget);
+        this.showImage(e.currentTarget);
       }
     });
   });
-  modal.addEventListener('click', handleClickOutside);
+  this.modal.addEventListener('click', this.handleClickOutside);
 }
 
-Gallery(document.querySelector('#rsg-1'));
-Gallery(document.querySelector('#rsg-2'));
+Gallery.prototype.openModal = function () {
+  if (this.modal.matches('.-open')) return;
+
+  this.modal.classList.add('-open');
+  window.addEventListener('keyup', this.handleKeyUp);
+  this.nextButton.addEventListener('click', this.showNextImage);
+  this.prevButton.addEventListener('click', this.showPrevImage);
+}
+
+Gallery.prototype.closeModal = function () {
+  this.modal.classList.remove('-open');
+  window.removeEventListener('keyup', this.handleKeyUp);
+  this.nextButton.removeEventListener('click', this.showNextImage);
+  this.prevButton.removeEventListener('click', this.showPrevImage);
+}
+
+Gallery.prototype.handleClickOutside = function (e) {
+  if (e.target === e.currentTarget) {
+    this.closeModal();
+  }
+}
+
+Gallery.prototype.handleKeyUp = function (e) {
+  if (e.key === 'Escape') return this.closeModal();
+  if (e.key === 'ArrowRight') return this.showNextImage();
+  if (e.key === 'ArrowLeft') return this.showPrevImage();
+}
+
+Gallery.prototype.showNextImage = function () {
+  console.log(this)
+  const nextFigure = this.currentImage.parentElement.nextElementSibling
+
+
+  if (nextFigure) {
+    this.showImage(nextFigure.firstElementChild);
+  } else {
+    this.showImage(this.gallery.firstElementChild.firstElementChild);
+  }
+}
+
+Gallery.prototype.showPrevImage = function () {
+  const previousFigure = this.currentImage.parentElement.previousElementSibling
+
+  if (previousFigure) {
+    this.showImage(previousFigure.firstElementChild);
+  } else {
+    this.showImage(this.gallery.lastElementChild.firstElementChild);
+  }
+}
+
+Gallery.prototype.showImage = function (el) {
+  if (!el) return;
+
+  this.modal.querySelector('[data-image]').src = el.src;
+  this.modal.querySelector('[data-title]').textContent = el.title;
+  this.modal.querySelector('[data-description]').textContent = el.dataset.description;
+  this.currentImage = el;
+  this.openModal();
+}
+
+const gallery1 = new Gallery(document.querySelector('#rsg-1'));
+const gallery2 = new Gallery(document.querySelector('#rsg-2'));
