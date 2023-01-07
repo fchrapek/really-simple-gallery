@@ -1,4 +1,4 @@
-class Gallery {
+class RSGallery {
   constructor(gallery) {
     this.gallery = gallery;
     this.images = Array.from(this.gallery.querySelectorAll('img'));
@@ -76,5 +76,4 @@ class Gallery {
   }
 }
 
-const gallery1 = new Gallery(document.querySelector('#rsg-1'));
-const gallery2 = new Gallery(document.querySelector('#rsg-2'));
+export default RSGallery;
