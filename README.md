@@ -15,5 +15,7 @@ Project in active development.
 [ ] - Adjust basic styling & compile it to CSS (or just stick with plain CSS)
 [ ] - Build with Mikrobundle (most likely).
 [ ] - Update NPM repository
+[ ] - Add demo cases
+[ ] - Add necessary HTML markup example
 [ ] - Testing, testing, testing
 ```
