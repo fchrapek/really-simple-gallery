@@ -1,7 +1,5 @@
 # Really Simple Gallery
 
----
-
 Super simple gallery module for further customization. Couldn't find any basic, minimalistic solution (available libs are either paid or too robust), so why not try making your own.
 
 ### Alpha Phase
