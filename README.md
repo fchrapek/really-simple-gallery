@@ -4,8 +4,6 @@ Super simple gallery module for further customization. Couldn't find any basic, 
 
 ### Alpha Phase
 
----
-
 Project in active development. 
 
 ```
